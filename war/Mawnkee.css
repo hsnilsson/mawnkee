@@ -1,0 +1,148 @@
+#root {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 3em 0 3em;
+  width: 50em;
+}
+
+#footer {
+  text-align: right;
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+.footer-border {
+  border-top: 1px solid darkgray;
+}
+
+#headerMenu {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+}
+
+#headerMenu a {
+  margin-left: 1em;
+}
+
+h1#title{
+  text-align: right;
+  font-size: 5em;
+  margin: 0 0 5px 0;
+}
+
+h2#subtitle {
+  text-align: right;
+  font-size: 1.25em;
+  font-style: italic;
+  margin: 0 0 5px 0;
+}
+
+.loginPanel {
+  padding: 1em;
+  text-align: center;
+  background: khaki;
+  border: 1px solid darkkhaki;
+  border-radius: 6px;
+}
+
+.loginPanel a {
+  font-size: 4em;
+}
+
+.loadingFailed {
+  padding: 0.5em;
+  text-align: center;
+  color: red;
+  border: 1px solid red;
+  background: pink;
+}
+
+.contentPanel {
+  padding: 1em;
+}
+
+.menuPanel {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+  text-align: center;
+  background: khaki;
+  border: 1px solid darkkhaki;
+  border-radius: 6px;
+}
+
+.menuButton {
+  margin: 0 1em 0 1em;
+  color: brown;
+  font-weight: bold;
+  font-size: 1.5em;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.2em 0.7em 0.2em 0.7em;
+  border: 1px solid khaki;
+}
+
+.menuButton:hover {
+  text-decoration: underline;
+}
+
+.dictionaryEntriesHeaderCell {
+  background: khaki;
+  font-weight: bold;
+  padding: 2px;
+}
+
+.dictionaryEntriesCheckBoxColumn {
+  width: 20px;
+}
+
+.dictionaryEntriesLanguageColumn {
+  width: 80px;
+}
+
+.dictionaryEntriesWordColumn, .dictionaryEntriesTranslationColumn {
+  width: 110px;
+}
+
+
+/* --------------------------------- */
+
+.stockListHeader {
+  background: #2062B8;
+  color: white;
+  font-weight: bold;
+}
+
+.stockList {
+	border: 1px solid #000;
+}
+
+.stockListNumericColumn {
+	text-align: right;
+	width: 8em;
+}
+
+.stockListRemoveColumn {
+	text-align: center;
+}
+
+.addPanel {
+	margin: 10px 0 15px 0;
+}
+
+.gwt-Button-remove {
+	width: 100px;
+}
+
+.noChange {
+  color: black;
+}
+
+.positiveChange {
+  color: green;
+}
+
+.negativeChange {
+  color: red;
+}

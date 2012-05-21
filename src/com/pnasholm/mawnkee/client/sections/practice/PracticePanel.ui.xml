@@ -1,0 +1,92 @@
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:style>
+    .sectionTitle {
+      font-weight: bold;
+    }
+
+    .setupRow {
+      margin: 2px 0 2px 0;
+    }
+    }
+
+    .gameRow {
+      margin: 3px 0 3px 0;
+    }
+
+    .gamePanel {
+      margin: 1em 1em 0 1em;
+      border: 1px solid darkkhaki;
+      border-radius: 6px;
+      padding: 1em;
+    }
+
+    .timerAndStatsSection {
+      float: right;
+      text-align: right;
+    }
+
+    .timerLabel {
+      font-size: 6em;
+    }
+
+    .numCorrectLabel, .numIncorrectLabel, .numRemainingLabel {
+      font-size: 0.9em;
+    }
+
+    .numCorrectLabel {
+      color: green;
+    }
+
+    .numIncorrectLabel {
+      color: red;
+    }
+
+    .wordLabel {
+      margin: 5px;
+      font-weight: bold;
+      font-size: 2em;
+    }
+  </ui:style>
+
+  <g:HTMLPanel>
+    <g:Label styleName="{style.sectionTitle}">Setup</g:Label>
+    <g:Label styleName="{style.setupRow}">
+      Choose the language that you want to practice:
+    </g:Label>
+    <g:ListBox ui:field="languageSelector" styleName="{style.setupRow}" />
+    <div class="{style.setupRow}">
+      <g:CheckBox ui:field="instaCheckAnswersCheckBox">Check answers instantly upon selecting</g:CheckBox>
+    </div>
+    <g:Button ui:field="startStopButton" styleName="{style.setupRow}" />
+
+    <g:HTMLPanel ui:field="gamePanel" styleName="{style.gamePanel}">
+      <g:Label styleName="{style.sectionTitle}">Game on!</g:Label>
+      <g:Label ui:field="questionLabel" styleName="{style.setupRow}">
+        What does the following word mean?
+      </g:Label>
+      <div class="{style.timerAndStatsSection}">
+        <g:Label ui:field="timerLabel" styleName="{style.timerLabel}" />
+        <g:Label ui:field="numCorrectLabel" styleName="{style.numCorrectLabel}" />
+        <g:Label ui:field="numIncorrectLabel" styleName="{style.numIncorrectLabel}" />
+        <g:Label ui:field="numRemainingLabel" styleName="{style.numRemainingLabel}" />
+      </div>
+      <g:Label ui:field="wordLabel" styleName="{style.wordLabel}" />
+      <div class="{style.setupRow}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton1" />
+      </div>
+      <div class="{style.setupRow}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton2" />
+      </div>
+      <div class="{style.setupRow}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton3" />
+      </div>
+      <div class="{style.setupRow}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton4" />
+      </div>
+      <g:Button ui:field="checkAnswerButton" styleName="{style.setupRow}">Check answer</g:Button>
+    </g:HTMLPanel>
+  </g:HTMLPanel>
+</ui:UiBinder>

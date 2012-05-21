@@ -1,0 +1,85 @@
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:style type="com.pnasholm.mawnkee.client.sections.dictionary.DictionaryPanel.Style">
+    .quickAddPanel {
+      margin-bottom: 10px;
+    }
+
+    .quickAddInputRow {
+      margin: 3px 0 3px 0;
+    }
+
+    .inputLabel {
+      text-align: right;
+      width: 100px;
+      margin-right: 8px;
+      display: inline-block;
+    }
+
+    .wordAndTranslationInput {
+      width: 125px;
+    }
+
+    .exampleInput {
+      width: 250px;
+    }
+
+    .errorInput {
+      border: 1px solid red;
+      background-color: pink;
+    }
+
+    .errorLabel {
+      display: inline-block;
+      color: red;
+      font-weight: bold;
+    }
+
+    .floatRight {
+      float: right;
+    }
+
+    .entriesTable {
+      width: 100%;
+    }
+
+    .sectionTitle {
+      font-weight: bold;
+    }
+  </ui:style>
+
+  <g:HTMLPanel>
+    <div class="{style.quickAddPanel}">
+      <g:Label ui:field="quickAddTitleLabel" styleName="{style.sectionTitle}" />
+      <div class="{style.quickAddInputRow}">
+        <g:Label ui:field="languageLabel" styleName="{style.inputLabel}" />
+        <g:ListBox ui:field="languageSelector" />
+      </div>
+      <div class="{style.quickAddInputRow}">
+        <g:Label ui:field="wordLabel" styleName="{style.inputLabel}" />
+        <g:TextBox ui:field="wordInput" styleName="{style.wordAndTranslationInput}"  />
+        <g:Label ui:field="wordErrorLabel" styleName="{style.errorLabel}" />
+      </div>
+      <div class="{style.quickAddInputRow}">
+        <g:Label ui:field="translationLabel" styleName="{style.inputLabel}" />
+        <g:TextBox ui:field="translationInput" styleName="{style.wordAndTranslationInput}"  />
+        <g:Label ui:field="translationErrorLabel" styleName="{style.errorLabel}" />
+      </div>
+      <div class="{style.quickAddInputRow}">
+        <g:Label ui:field="exampleLabel" styleName="{style.inputLabel}" />
+        <g:TextBox ui:field="exampleInput" styleName="{style.exampleInput}" />
+      </div>
+      <div>
+        <div class="{style.inputLabel}" />
+        <g:Button ui:field="addButton" />
+      </div>
+    </div>
+
+    <g:Label ui:field="entriesTitleLabel" styleName="{style.sectionTitle}" />
+    <g:Button ui:field="removeSelectedButton" styleName="{style.floatRight}" />
+    <g:Label ui:field="entriesCountLabel" />
+    <g:FlexTable ui:field="entriesTable" styleName="{style.entriesTable}" />
+  </g:HTMLPanel>
+</ui:UiBinder>

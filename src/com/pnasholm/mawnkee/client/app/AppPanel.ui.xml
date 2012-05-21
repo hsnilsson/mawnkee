@@ -1,0 +1,26 @@
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:m="urn:import:com.pnasholm.mawnkee.client.menus"
+    xmlns:da="urn:import:com.pnasholm.mawnkee.client.sections.dashboard"
+    xmlns:pr="urn:import:com.pnasholm.mawnkee.client.sections.practice"
+    xmlns:di="urn:import:com.pnasholm.mawnkee.client.sections.dictionary">
+
+  <ui:style type="com.pnasholm.mawnkee.client.app.AppPanel.UiStyle">
+    .selected {
+      border: 1px solid darkkhaki;
+      border-radius: 3px;
+    }
+  </ui:style>
+
+  <g:FlowPanel ui:field="containerPanel">
+    <g:FlowPanel ui:field="menuPanel" styleName="menuPanel">
+      <g:Label ui:field="dashboardLabel" styleName="menuButton">Dashboard</g:Label>
+      <g:Label ui:field="dictionaryLabel" styleName="menuButton">Dictionary</g:Label>
+      <g:Label ui:field="practiceLabel" styleName="menuButton">Practice</g:Label>
+    </g:FlowPanel>
+    <da:DashboardPanel ui:field="dashboardPanel" styleName="contentPanel" />
+    <di:DictionaryPanel ui:field="dictionaryPanel" styleName="contentPanel" />
+    <pr:PracticePanel ui:field="practicePanel" styleName="contentPanel" />
+  </g:FlowPanel>
+</ui:UiBinder>

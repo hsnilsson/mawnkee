@@ -1,0 +1,13 @@
+- Make practice mode work.
+- Add italic text in dictionary saying "Empty dictionary." or so when dictionary is empty.
+- Add batch add of words -- it's tedious adding one by one if you have a personal DB.
+- Internationalize app to Swedish to figure out exactly how this works.
+- Implement some sort of whitelist feature and push a working version to App Engine that
+  works for whitelisted users.
+- Add tests, foremost unit tests (whatever happened to TDD?!).
+ * Try using both Mockito and easymock for mock frameworks.
+ * Selenium tests?
+- Make app personally configurable.
+ * E.g., being able to set the word countdown time.
+- Improve Dashboard so user can see how they improve and what words they have trouble w/, etc.
+- Write mobile version (website -- not app, at least to start w/).

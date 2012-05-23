@@ -49,6 +49,10 @@
       font-weight: bold;
       font-size: 2em;
     }
+
+    .inline {
+      display: inline;
+    }
   </ui:style>
 
   <g:HTMLPanel>
@@ -57,6 +61,7 @@
       Choose the language that you want to practice:
     </g:Label>
     <g:ListBox ui:field="languageSelector" styleName="{style.setupRow}" />
+    <g:Label ui:field="tooFewWordsLabel" styleName="errorLabel {style.inline}" />
     <div class="{style.setupRow}">
       <g:CheckBox ui:field="instaCheckAnswersCheckBox">Check answers instantly upon selecting</g:CheckBox>
     </div>

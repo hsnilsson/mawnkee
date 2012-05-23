@@ -6,14 +6,18 @@ import com.pnasholm.mawnkee.shared.Language;
 public interface PracticeView {
 
   interface Handler {
+    void onLanguageChange();
     void startStop();
     void checkAnswer();
   }
 
   Language getSelectedLanguage();
 
+  void setTooFewWordsForSelectedLanguageLabel();
+  void clearTooFewWordsForSelectedLanguageLabel();
   void setLanguageSelectorEnabled(boolean value);
   void setInstaCheckAnswersCheckBoxEnabled(boolean value);
+  void setStartStopEnabled(boolean value);
   void updateStartStopButtonText(boolean start);
   void setGamePanelVisible(boolean value);
 

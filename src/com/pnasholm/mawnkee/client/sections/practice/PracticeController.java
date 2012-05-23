@@ -40,7 +40,21 @@ public class PracticeController implements PracticeView.Handler, DictionaryChang
 
   @Override
   public void onDictionaryChanged() {
-    
+    onLanguageChange();
+  }
+
+  @Override
+  public void onLanguageChange() {
+    boolean isLanguagePracticeable =
+        getEntriesByLanguage(dictionary, view.getSelectedLanguage()).size()
+            >= Constants.MIN_SIZE_PRACTICEABLE_DICTIONARY;
+    if (isLanguagePracticeable) {
+      view.clearTooFewWordsForSelectedLanguageLabel();
+    } else {
+      view.setTooFewWordsForSelectedLanguageLabel();
+    }
+    view.setStartStopEnabled(isLanguagePracticeable);
+    view.setInstaCheckAnswersCheckBoxEnabled(isLanguagePracticeable);
   }
 
   @Override

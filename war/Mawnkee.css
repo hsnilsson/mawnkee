@@ -105,44 +105,7 @@ h2#subtitle {
   width: 110px;
 }
 
-
-/* --------------------------------- */
-
-.stockListHeader {
-  background: #2062B8;
-  color: white;
-  font-weight: bold;
-}
-
-.stockList {
-	border: 1px solid #000;
-}
-
-.stockListNumericColumn {
-	text-align: right;
-	width: 8em;
-}
-
-.stockListRemoveColumn {
-	text-align: center;
-}
-
-.addPanel {
-	margin: 10px 0 15px 0;
-}
-
-.gwt-Button-remove {
-	width: 100px;
-}
-
-.noChange {
-  color: black;
-}
-
-.positiveChange {
-  color: green;
-}
-
-.negativeChange {
+.errorLabel {
   color: red;
+  font-style: italic;
 }

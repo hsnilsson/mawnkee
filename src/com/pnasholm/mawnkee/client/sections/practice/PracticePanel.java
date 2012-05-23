@@ -1,6 +1,7 @@
 package com.pnasholm.mawnkee.client.sections.practice;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.LocalizableResource.Generate;
 import com.google.gwt.i18n.client.Messages;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.pnasholm.mawnkee.client.i18n.LanguageInternationalizer;
+import com.pnasholm.mawnkee.shared.Constants;
 import com.pnasholm.mawnkee.shared.Language;
 
 /**
@@ -38,6 +40,7 @@ public class PracticePanel extends Composite implements PracticeView {
   private LanguageInternationalizer languageInternationalizer;
 
   @UiField ListBox languageSelector;
+  @UiField Label tooFewWordsLabel;
   @UiField Button startStopButton;
 
   @UiField HTMLPanel gamePanel;
@@ -70,6 +73,8 @@ public class PracticePanel extends Composite implements PracticeView {
     }
     startStopButton.setText(messages.start());
     gamePanel.setVisible(false);
+    // Simulate a language change to get the UI state right.
+    handler.onLanguageChange();
   }
 
   @UiHandler("startStopButton")
@@ -80,6 +85,27 @@ public class PracticePanel extends Composite implements PracticeView {
   @UiHandler("checkAnswerButton")
   void onCheckAnswerClick(ClickEvent event) {
     handler.checkAnswer();
+  }
+
+  @UiHandler("languageSelector")
+  void onLanguageSelectorChange(ChangeEvent event) {
+    handler.onLanguageChange();
+  }
+
+  @Override
+  public void setTooFewWordsForSelectedLanguageLabel() {
+    tooFewWordsLabel.setText(messages.tooFewWordsForSelectedLanguage(
+        languageInternationalizer.getLanguage(getSelectedLanguage())));
+  }
+
+  @Override
+  public void clearTooFewWordsForSelectedLanguageLabel() {
+    tooFewWordsLabel.setText(Constants.EMPTY_STRING);
+  }
+
+  @Override
+  public void setStartStopEnabled(boolean value) {
+    startStopButton.setEnabled(value);
   }
 
   @Override
@@ -187,5 +213,9 @@ public class PracticePanel extends Composite implements PracticeView {
     @DefaultMessage("{0} remaining")
     @Description("2do")
     String numRemaining(int numRemaining);
+
+    @DefaultMessage("Your Dictionary contains too few words in {0} for you to practice it.")
+    @Description("2do")
+    String tooFewWordsForSelectedLanguage(String language);
   }
 }

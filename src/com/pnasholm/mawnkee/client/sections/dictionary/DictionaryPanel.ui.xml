@@ -31,12 +31,6 @@
       background-color: pink;
     }
 
-    .errorLabel {
-      display: inline-block;
-      color: red;
-      font-weight: bold;
-    }
-
     .floatRight {
       float: right;
     }
@@ -47,6 +41,10 @@
 
     .sectionTitle {
       font-weight: bold;
+    }
+
+    .errorLabel {
+      display: inline-block;
     }
   </ui:style>
 
@@ -60,12 +58,12 @@
       <div class="{style.quickAddInputRow}">
         <g:Label ui:field="wordLabel" styleName="{style.inputLabel}" />
         <g:TextBox ui:field="wordInput" styleName="{style.wordAndTranslationInput}"  />
-        <g:Label ui:field="wordErrorLabel" styleName="{style.errorLabel}" />
+        <g:Label ui:field="wordErrorLabel" styleName="errorLabel {style.errorLabel}" />
       </div>
       <div class="{style.quickAddInputRow}">
         <g:Label ui:field="translationLabel" styleName="{style.inputLabel}" />
         <g:TextBox ui:field="translationInput" styleName="{style.wordAndTranslationInput}"  />
-        <g:Label ui:field="translationErrorLabel" styleName="{style.errorLabel}" />
+        <g:Label ui:field="translationErrorLabel" styleName="errorLabel {style.errorLabel}" />
       </div>
       <div class="{style.quickAddInputRow}">
         <g:Label ui:field="exampleLabel" styleName="{style.inputLabel}" />

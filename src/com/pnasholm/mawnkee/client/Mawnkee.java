@@ -19,6 +19,9 @@ import com.pnasholm.mawnkee.client.menus.HeaderMenuPanel;
 import com.pnasholm.mawnkee.client.sections.dictionary.DictionaryEntry;
 import com.pnasholm.mawnkee.shared.Constants;
 
+/**
+ * Main class and entry point for the app.
+ */
 public class Mawnkee implements EntryPoint {
 
   private enum Page { LOGIN, APP };

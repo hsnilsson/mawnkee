@@ -1,4 +1,6 @@
 - Make practice mode work.
+ * Every finished practice session should be saved so we can present stats on this on the
+   Dashboard later.
 - Add italic text in dictionary saying "Empty dictionary." or so when dictionary is empty.
 - Add batch add of words -- it's tedious adding one by one if you have a personal DB.
 - Internationalize app to Swedish to figure out exactly how this works.

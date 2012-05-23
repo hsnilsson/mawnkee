@@ -9,15 +9,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.pnasholm.mawnkee.client.login.LoginInfo;
 
 /**
- * Panel for the header menu containing 'Settings' and 'Log Out' links.
+ * Panel for the header menu containing the 'Sign Out' links.
  */
 public class HeaderMenuPanel extends Composite {
 
   interface Binder extends UiBinder<Widget, HeaderMenuPanel> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
-  
+
   @UiField Anchor signOutLink;
-  
+
   public HeaderMenuPanel(LoginInfo loginInfo) {
     initWidget(uiBinder.createAndBindUi(this));
     signOutLink.setHref(loginInfo.getLogoutUrl());

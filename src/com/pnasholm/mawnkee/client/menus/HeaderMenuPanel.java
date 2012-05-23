@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.pnasholm.mawnkee.client.login.LoginInfo;
 
 /**
- * Panel for the header menu containing the 'Sign Out' links.
+ * Panel for the header menu containing the 'Sign Out' link.
  */
 public class HeaderMenuPanel extends Composite {
 

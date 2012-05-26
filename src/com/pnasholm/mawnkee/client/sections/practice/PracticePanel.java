@@ -5,12 +5,14 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.LocalizableResource.Generate;
 import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -18,6 +20,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.pnasholm.mawnkee.client.i18n.LanguageInternationalizer;
 import com.pnasholm.mawnkee.shared.Constants;
 import com.pnasholm.mawnkee.shared.Language;
@@ -38,6 +41,7 @@ public class PracticePanel extends Composite implements PracticeView {
 
   private PracticeView.Handler handler;
   private LanguageInternationalizer languageInternationalizer;
+  private NumberFormat oneDecimalFormatter;
 
   @UiField ListBox languageSelector;
   @UiField Label tooFewWordsLabel;
@@ -58,21 +62,31 @@ public class PracticePanel extends Composite implements PracticeView {
   @UiField Label numIncorrectLabel;
   @UiField Label numRemainingLabel;
 
+  @UiField FlowPanel previousRoundStatsPanel;
+  @UiField Label previousRoundStatsNumCorrectLabel;
+  @UiField Label previousRoundStatsTotalTimeSpentLabel;
+  @UiField Label previousRoundStatsNumCorrectPerSecondLabel;
+  @UiField Label previousRoundImpressivenessLabel;
+
   @Inject
   public PracticePanel(
-      HandlerFactory handlerFactory, LanguageInternationalizer languageInternationalizer) {
+      HandlerFactory handlerFactory,
+      LanguageInternationalizer languageInternationalizer,
+      @Named("oneDecimal") NumberFormat oneDecimalFormatter) {
     this.languageInternationalizer = languageInternationalizer;
     initWidget(uiBinder.createAndBindUi(this));
     handler = handlerFactory.create(this);
-    initPanel();
+    this.oneDecimalFormatter = oneDecimalFormatter;
+    init();
   }
 
-  private void initPanel() {
+  private void init() {
     for (Language language : Language.values()) {
       languageSelector.addItem(languageInternationalizer.getLanguage(language));
     }
     startStopButton.setText(messages.start());
     gamePanel.setVisible(false);
+    previousRoundStatsPanel.setVisible(false);
     // Simulate a language change to get the UI state right.
     handler.onLanguageChange();
   }
@@ -90,6 +104,14 @@ public class PracticePanel extends Composite implements PracticeView {
   @UiHandler("languageSelector")
   void onLanguageSelectorChange(ChangeEvent event) {
     handler.onLanguageChange();
+  }
+
+  @UiHandler({"suggestionRadioButton1", "suggestionRadioButton2", "suggestionRadioButton3",
+      "suggestionRadioButton4"})
+  void onSuggestionRadioButtonClick(ClickEvent event) {
+    if (instaCheckAnswersCheckBox.getValue()) {
+      handler.checkAnswer();
+    }
   }
 
   @Override
@@ -132,12 +154,32 @@ public class PracticePanel extends Composite implements PracticeView {
   }
 
   @Override
+  public void setPreviousRoundStats(int numCorrect, int numTotal, int totalTimeSpent) {
+    previousRoundStatsNumCorrectLabel.setText(
+        messages.previousRoundStatsNumCorrectOutOf(numCorrect, numTotal));
+    previousRoundStatsTotalTimeSpentLabel.setText(
+        messages.previousRoundStatsNumSecondsSpent(totalTimeSpent));
+    double correctPerSecond = ((double) numCorrect) / totalTimeSpent;
+    previousRoundStatsNumCorrectPerSecondLabel.setText(
+        messages.previousRoundStatsNumCorrectPerSecond(
+            oneDecimalFormatter.format(correctPerSecond)));
+    setImpressivenessLabel(correctPerSecond);
+    previousRoundStatsPanel.setVisible(true);
+  }
+
+  @Override
   public void setTimeRemaining(int numSeconds) {
-    String timeRemaining = "00:";
+    timerLabel.setText(prettyPrintTime(numSeconds));
+  }
+
+  private String prettyPrintTime(int seconds) {
+    int numMinutes = seconds / 60;
+    int numSeconds = seconds - numMinutes * 60;
+    String timeRemaining = "0" + numMinutes + ":";
     if (numSeconds < 10) {
       timeRemaining += "0";
     }
-    timerLabel.setText(timeRemaining + numSeconds);
+    return timeRemaining + numSeconds;
   }
 
   private void setSuggestions(String[] suggestions) {
@@ -146,6 +188,28 @@ public class PracticePanel extends Composite implements PracticeView {
     suggestionRadioButton2.setText(suggestions[1]);
     suggestionRadioButton3.setText(suggestions[2]);
     suggestionRadioButton4.setText(suggestions[3]);
+  }
+
+  private void setImpressivenessLabel(double correctPerSecond) {
+    if (correctPerSecond >= Constants.ImpressivenessThresholds.LEVEL_5) {
+      previousRoundImpressivenessLabel.setText(messages.impressivenessLevel5());
+      previousRoundImpressivenessLabel.setVisible(true);
+    } else if (correctPerSecond >= Constants.ImpressivenessThresholds.LEVEL_4) {
+      previousRoundImpressivenessLabel.setText(messages.impressivenessLevel4());
+      previousRoundImpressivenessLabel.setVisible(true);
+    } else if (correctPerSecond >= Constants.ImpressivenessThresholds.LEVEL_3) {
+      previousRoundImpressivenessLabel.setText(messages.impressivenessLevel3());
+      previousRoundImpressivenessLabel.setVisible(true);
+    } else if (correctPerSecond >= Constants.ImpressivenessThresholds.LEVEL_2) {
+      previousRoundImpressivenessLabel.setText(messages.impressivenessLevel2());
+      previousRoundImpressivenessLabel.setVisible(true);
+    } else if (correctPerSecond >= Constants.ImpressivenessThresholds.LEVEL_1) {
+      previousRoundImpressivenessLabel.setText(messages.impressivenessLevel1());
+      previousRoundImpressivenessLabel.setVisible(true);
+    } else {
+      previousRoundImpressivenessLabel.setText(Constants.EMPTY_STRING);
+      previousRoundImpressivenessLabel.setVisible(false);
+    }
   }
 
   @Override
@@ -217,5 +281,37 @@ public class PracticePanel extends Composite implements PracticeView {
     @DefaultMessage("Your Dictionary contains too few words in {0} for you to practice it.")
     @Description("2do")
     String tooFewWordsForSelectedLanguage(String language);
+
+    @DefaultMessage("You got {0} / {1} right.")
+    @Description("2do")
+    String previousRoundStatsNumCorrectOutOf(int numCorrect, int numTotal);
+
+    @DefaultMessage("It took you {0,number} seconds.")
+    @AlternateMessage({"=1", "It took you 1 second."})
+    String previousRoundStatsNumSecondsSpent(@PluralCount int numSeconds);
+
+    @DefaultMessage("That''s {0} right per second.")
+    @Description("2do")
+    String previousRoundStatsNumCorrectPerSecond(String numCorrectPerSecond);
+
+    @DefaultMessage("Not bad.")
+    @Description("2do")
+    String impressivenessLevel1();
+
+    @DefaultMessage("You''re pretty good!")
+    @Description("2do")
+    String impressivenessLevel2();
+
+    @DefaultMessage("That''s fast!")
+    @Description("2do")
+    String impressivenessLevel3();
+
+    @DefaultMessage("That''s impressive!")
+    @Description("2do")
+    String impressivenessLevel4();
+
+    @DefaultMessage("Speed demon! You rock!")
+    @Description("2do")
+    String impressivenessLevel5();
   }
 }

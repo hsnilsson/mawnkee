@@ -10,19 +10,13 @@ public class CountdownTimer extends Timer {
   private PracticeController controller;
   private PracticeView view;
 
-  private int numInitialSeconds;
   private int numSecondsRemaining;
 
   public CountdownTimer(PracticeController controller, PracticeView view, int numSeconds) {
     this.controller = controller;
     this.view = view;
 
-    numInitialSeconds = numSeconds;
     numSecondsRemaining = numSeconds;
-  }
-
-  public int getNumSecondsUsed() {
-    return numInitialSeconds - numSecondsRemaining;
   }
 
   @Override

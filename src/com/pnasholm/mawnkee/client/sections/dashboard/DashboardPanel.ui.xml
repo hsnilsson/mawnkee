@@ -17,6 +17,7 @@
     <g:FlowPanel ui:field="dictionaryPanel" styleName="{style.panel}">
       <g:Label styleName="{style.panelTitle}">Dictionary</g:Label>
       <g:Label ui:field="dictionaryMessageLabel" />
+      <g:Label ui:field="dictionaryActionLabel" styleName="linkLabel" />
     </g:FlowPanel>
     <g:FlowPanel ui:field="practicePanel" styleName="{style.panel}">
       <g:Label styleName="{style.panelTitle}">Practice</g:Label>

@@ -10,7 +10,6 @@
     .setupRow {
       margin: 2px 0 2px 0;
     }
-    }
 
     .gameRow {
       margin: 3px 0 3px 0;
@@ -53,9 +52,37 @@
     .inline {
       display: inline;
     }
+
+    .previousRoundStats {
+      float: right;
+      padding: 8px;
+      border: 1px solid blue;
+      background: lightblue;
+    }
+
+    .suggestionRadioButton {
+      margin-bottom: 4px;
+    }
+
+    .suggestionRadioButton label {
+      margin-left: 5px;
+    }
+
+    .impressivenessLabel {
+      margin-top: 12px;
+    }
   </ui:style>
 
   <g:HTMLPanel>
+    <g:FlowPanel ui:field="previousRoundStatsPanel" styleName="{style.previousRoundStats}">
+      <g:Label styleName="{style.sectionTitle}">About previous round...</g:Label>
+      <g:Label ui:field="previousRoundStatsNumCorrectLabel" />
+      <g:Label ui:field="previousRoundStatsTotalTimeSpentLabel" />
+      <g:Label ui:field="previousRoundStatsNumCorrectPerSecondLabel" />
+      <g:Label ui:field="previousRoundImpressivenessLabel"
+          styleName="{style.impressivenessLabel}" />
+    </g:FlowPanel>
+
     <g:Label styleName="{style.sectionTitle}">Setup</g:Label>
     <g:Label styleName="{style.setupRow}">
       Choose the language that you want to practice:
@@ -79,17 +106,21 @@
         <g:Label ui:field="numRemainingLabel" styleName="{style.numRemainingLabel}" />
       </div>
       <g:Label ui:field="wordLabel" styleName="{style.wordLabel}" />
-      <div class="{style.setupRow}">
-        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton1" />
+      <div class="{style.suggestionRadioButton}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton1"
+            styleName="{style.suggestionRadioButton}" />
       </div>
-      <div class="{style.setupRow}">
-        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton2" />
+      <div class="{style.suggestionRadioButton}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton2"
+            styleName="{style.suggestionRadioButton}" />
       </div>
-      <div class="{style.setupRow}">
-        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton3" />
+      <div class="{style.suggestionRadioButton}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton3"
+            styleName="{style.suggestionRadioButton}" />
       </div>
-      <div class="{style.setupRow}">
-        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton4" />
+      <div class="{style.suggestionRadioButton}">
+        <g:RadioButton name="suggestion" ui:field="suggestionRadioButton4"
+            styleName="{style.suggestionRadioButton}" />
       </div>
       <g:Button ui:field="checkAnswerButton" styleName="{style.setupRow}">Check answer</g:Button>
     </g:HTMLPanel>

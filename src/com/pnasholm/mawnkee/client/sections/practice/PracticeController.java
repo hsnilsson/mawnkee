@@ -24,7 +24,6 @@ public class PracticeController implements PracticeView.Handler, DictionaryChang
   private boolean roundRunning;
   private PracticeRound currentRound;
   private CountdownTimer roundTimer;
-  private List<DictionaryEntry> roundEntries;
   private int correctSuggestionIndex;
 
   @Inject
@@ -60,30 +59,38 @@ public class PracticeController implements PracticeView.Handler, DictionaryChang
   @Override
   public void startStop() {
     if (!roundRunning) {
-      startSession();
+      startRound();
     } else {
-      stopSession();
+      forceEndRound();
     }
-    roundRunning = !roundRunning;
   }
 
-  private void startSession() {
-    roundEntries = getEntriesByLanguage(dictionary, view.getSelectedLanguage());
-    currentRound = new PracticeRound(Constants.NUM_WORDS_PER_SESSION);
+  private void startRound() {
+    currentRound = new PracticeRound(Constants.NUM_WORDS_PER_ROUND);
+    currentRound.setEntries(getEntriesByLanguage(dictionary, view.getSelectedLanguage()));
+    currentRound.startRound();
 
     view.setLanguageSelectorEnabled(false);
-    view.setInstaCheckAnswersCheckBoxEnabled(false);
     view.updateStartStopButtonText(false);
     view.setStats(0, 0, currentRound.getNumWordsRemaining());
     view.setGamePanelVisible(true);
-    newWord();
+    setNewWord();
+    roundRunning = true;
   }
 
-  private void stopSession() {
+  private void forceEndRound() {
+    roundRunning = false;
     view.setLanguageSelectorEnabled(true);
-    view.setInstaCheckAnswersCheckBoxEnabled(true);
     view.updateStartStopButtonText(true);
     view.setGamePanelVisible(false);
+  }
+
+  private void endRound() {
+    forceEndRound();
+    view.setPreviousRoundStats(
+        currentRound.getNumWordsCorrect(),
+        currentRound.getNumWordsDone(),
+        Math.max(1, currentRound.getNumSecondsElapsed()));
   }
 
   @Override
@@ -94,12 +101,45 @@ public class PracticeController implements PracticeView.Handler, DictionaryChang
     } else {
       currentRound.incrementNumWordsIncorrect();
     }
-    currentRound.addElapsedTime(roundTimer.getNumSecondsUsed());
     view.setStats(
         currentRound.getNumWordsCorrect(),
         currentRound.getNumWordsIncorrect(),
         currentRound.getNumWordsRemaining());
-    newWord();
+
+    if (currentRound.getNumWordsRemaining() == 0) {
+      endRound();
+    } else {
+      setNewWord();
+    }
+  }
+
+  private void setNewWord() {
+    if (roundTimer != null) {
+      roundTimer.cancel();
+    }
+    view.uncheckAllSuggestions();
+
+    int correctIndex = Random.nextInt(currentRound.getEntries().size());
+    DictionaryEntry correctEntry = dictionary.get(correctIndex);
+    List<Integer> validIndexes = getRange(correctIndex, currentRound.getEntries().size() - 1);
+    List<DictionaryEntry> suggestions = new ArrayList<DictionaryEntry>(4);
+    for (int i = 0; i < 3; i++) {
+       suggestions.add(dictionary.get(validIndexes.remove(Random.nextInt(validIndexes.size()))));
+    }
+    correctSuggestionIndex = Random.nextInt(4);
+    suggestions.add(correctSuggestionIndex, correctEntry);
+
+    view.setWordAndSuggestions(
+        correctEntry.getWord(),
+        new String[] {
+            suggestions.get(0).getTranslation(),
+            suggestions.get(1).getTranslation(),
+            suggestions.get(2).getTranslation(),
+            suggestions.get(3).getTranslation() });
+    view.setTimeRemaining(Constants.NUM_SECONDS_PER_WORD);
+    roundTimer = new CountdownTimer(this, view, Constants.NUM_SECONDS_PER_WORD);
+    roundTimer.scheduleRepeating(Constants.ONE_SECOND_IN_MILLIS);
+    currentRound.decrementNumWordsRemaining();
   }
 
   private List<DictionaryEntry> getEntriesByLanguage(
@@ -111,39 +151,6 @@ public class PracticeController implements PracticeView.Handler, DictionaryChang
       }
     }
     return filteredEntries;
-  }
-
-  private void newWord() {
-    if (roundTimer != null) {
-      roundTimer.cancel();
-    }
-    view.uncheckAllSuggestions();
-
-    if (currentRound.getNumWordsRemaining() == 0) {
-//      gameOver();
-    } else {
-      int correctIndex = Random.nextInt(roundEntries.size());
-      DictionaryEntry correctEntry = dictionary.get(correctIndex);
-      List<Integer> validIndexes = getRange(correctIndex, roundEntries.size() - 1);
-      List<DictionaryEntry> suggestions = new ArrayList<DictionaryEntry>(4);
-      for (int i = 0; i < 3; i++) {
-         suggestions.add(dictionary.get(validIndexes.remove(Random.nextInt(validIndexes.size()))));
-      }
-      correctSuggestionIndex = Random.nextInt(4);
-      suggestions.add(correctSuggestionIndex, correctEntry);
-
-      view.setWordAndSuggestions(
-          correctEntry.getWord(),
-          new String[] {
-              suggestions.get(0).getTranslation(),
-              suggestions.get(1).getTranslation(),
-              suggestions.get(2).getTranslation(),
-              suggestions.get(3).getTranslation() });
-      view.setTimeRemaining(Constants.NUM_SECONDS_PER_WORD);
-      roundTimer = new CountdownTimer(this, view, Constants.NUM_SECONDS_PER_WORD);
-      roundTimer.scheduleRepeating(Constants.ONE_SECOND_IN_MILLIS);
-      currentRound.decrementNumWordsRemaining();
-    }
   }
 
   private List<Integer> getRange(int exclude, int upperBound) {

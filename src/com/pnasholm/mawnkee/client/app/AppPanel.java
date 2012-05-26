@@ -72,7 +72,7 @@ public class AppPanel extends Composite implements AppView {
   void onDictionaryClick(ClickEvent event) {
     handler.onSelect(AppSection.DICTIONARY);
   }
-  
+
   @UiHandler("practiceLabel")
   void onPracticeClick(ClickEvent event) {
     handler.onSelect(AppSection.PRACTICE);

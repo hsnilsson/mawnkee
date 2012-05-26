@@ -25,6 +25,7 @@ public interface PracticeView {
   void setWordAndSuggestions(String word, String[] suggestions);
   void stopSession();
   void setTimeRemaining(int numSeconds);
-  void setStats(int numCorrect, int numIncorrect, int numRemaining);
+  void setStats(int numCorrect, int numTotal, int numRemaining);
+  void setPreviousRoundStats(int numCorrect, int numIncorrect, int totalTimeSpent);
   int getSelectedSuggestionIndex();
 }

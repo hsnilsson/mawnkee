@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.i18n.client.LocalizableResource.Generate;
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -38,6 +40,7 @@ public class DashboardPanel extends Composite implements DictionaryChangedHandle
   @UiField Label greetingMessageLabel;
   @UiField FlowPanel dictionaryPanel;
   @UiField Label dictionaryMessageLabel;
+  @UiField Label dictionaryActionLabel;
   @UiField FlowPanel practicePanel;
   @UiField Label practiceMessageLabel;
 
@@ -55,9 +58,17 @@ public class DashboardPanel extends Composite implements DictionaryChangedHandle
     practiceMessageLabel.setText(messages.noPractices());
   }
 
+  @UiHandler("dictionaryActionLabel")
+  void onDictionaryActionClick(ClickEvent event) {
+  }
+
   private void setDictionaryMessage() {
+    dictionaryActionLabel.setVisible(false);
+
     if (dictionary.isEmpty()) {
       dictionaryMessageLabel.setText(messages.zeroEntries());
+//      dictionaryActionLabel.setText(messages.goAddWords());
+//      dictionaryActionLabel.setVisible(true);
     } else if (!isDictionaryPracticeable()) {
       dictionaryMessageLabel.setText(
           messages.tooFewEntries(Constants.MIN_SIZE_PRACTICEABLE_DICTIONARY));
@@ -102,7 +113,7 @@ public class DashboardPanel extends Composite implements DictionaryChangedHandle
     @Description("2do")
     String addWords();
 
-    @DefaultMessage("Your Dictionary is empty -- go add some words right away!")
+    @DefaultMessage("Your Dictionary is empty.")
     @Description("2do")
     String zeroEntries();
 
@@ -114,6 +125,10 @@ public class DashboardPanel extends Composite implements DictionaryChangedHandle
     @DefaultMessage("There are {0} entries in your Dictionary. Not bad, ay!")
     @Description("2do")
     String sufficientlyManyEntries(int numEntries);
+
+    @DefaultMessage("Go add some words right away. »")
+    @Description("2do")
+    String goAddWords();
 
     @DefaultMessage("You have yet to practice for the first time.")
     @Description("2do")

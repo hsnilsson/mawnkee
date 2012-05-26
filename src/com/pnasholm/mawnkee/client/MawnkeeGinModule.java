@@ -1,8 +1,11 @@
 package com.pnasholm.mawnkee.client;
 
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.pnasholm.mawnkee.client.app.AppController;
@@ -31,5 +34,12 @@ public class MawnkeeGinModule extends AbstractGinModule {
     install(new GinFactoryModuleBuilder()
         .implement(PracticeView.Handler.class, PracticeController.class)
         .build(PracticePanel.HandlerFactory.class));
+  }
+
+  @Provides
+  @Singleton
+  @Named("oneDecimal")
+  NumberFormat providesOneDecimalFormatter() {
+    return NumberFormat.getFormat(".000");
   }
 }
